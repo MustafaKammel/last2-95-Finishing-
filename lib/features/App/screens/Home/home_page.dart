@@ -9,6 +9,8 @@ import 'package:graduateproject/utils/constants/sizes.dart';
 import 'package:graduateproject/utils/constants/text_strings.dart';
 import 'package:graduateproject/utils/helpers/helper_functions.dart';
 import 'package:graduateproject/views/doctor_profile_view/doctor_profile_view.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:lottie/lottie.dart';
 import '../../../../../../common/widgets/custom_shapes/contianers/primary_header_container.dart';
 import '../../../../../../common/widgets/texts/section_heading.dart';
 import '../../../../../../common/widgets/Doctors/doctor_card_vertical.dart';
@@ -44,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     if (!_isConnected) {
       return Scaffold(
@@ -77,7 +80,7 @@ class _HomePageState extends State<HomePage> {
               height: 380,
               child: Column(
                 children: [
-                   HomeAppBar(),
+                  HomeAppBar(),
                   const SizedBox(
                     height: TSizes.spaceBtwSections,
                   ),
@@ -132,7 +135,8 @@ class _HomePageState extends State<HomePage> {
                         return Center(
                           child: Text('Error: ${snapshot.error}'),
                         );
-                      } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      } else if (!snapshot.hasData ||
+                          snapshot.data!.docs.isEmpty) {
                         return Center(
                           child: Text('No Data Available'),
                         );
@@ -143,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                           child: GridView.builder(
                             shrinkWrap: true,
                             gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               mainAxisSpacing: TSizes.gridViewSpacing,
                               crossAxisSpacing: TSizes.gridViewSpacing,
@@ -161,8 +165,8 @@ class _HomePageState extends State<HomePage> {
                                 isFavorite: data[index]['isFavorite'] ?? false,
                                 onTap: () {
                                   Get.to(() => DoctorProfileView(
-                                    doc: data[index],
-                                  ));
+                                        doc: data[index],
+                                      ));
                                 },
                               );
                             },
@@ -176,6 +180,105 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(() => ChatBotScreen());
+        },
+        child: Icon(Iconsax.message),
+        backgroundColor: MColors.primary,
+      ),
+    );
+  }
+}
+
+
+class ChatBotScreen extends StatefulWidget {
+  @override
+  State<ChatBotScreen> createState() => _ChatBotScreenState();
+}
+
+class _ChatBotScreenState extends State<ChatBotScreen> {
+  final Map<String, String> faq = {
+    "ما هو ضغط الدم الطبيعي؟": "ضغط الدم الطبيعي يكون حوالي 120/80 ملم زئبقي.",
+    "ما هي أعراض السكري؟": "من أعراض السكري العطش الشديد، التبول المتكرر، والتعب الشديد.",
+    "كيف يمكنني الوقاية من أمراض القلب؟": "يمكنك الوقاية من أمراض القلب باتباع نظام غذائي صحي، ممارسة الرياضة بانتظام، وتجنب التدخين.",
+    "ما هي فوائد النوم الجيد؟": "يعزز النوم الجيد الصحة العقلية والجسدية، ويزيد من الطاقة والتركيز والإنتاجية.",
+    "ما هي أعراض نقص فيتامين D؟": "من أعراض نقص فيتامين D الإرهاق، والضعف العام، وآلام العظام والعضلات.",
+    "ما هي أسباب آلام الظهر؟": "من أسباب آلام الظهر الجلوس لفترات طويلة، والرفع الثقيل بطريقة خاطئة، ونقص التمارين الرياضية.",
+    "كم عدد ساعات النوم الصحيح؟": "يُوصى بأن ينام البالغون ما بين 7 إلى 9 ساعات في الليلة الواحدة للحصول على نوم صحي.",
+    "ما هي الأطعمة الغنية بالبروتين؟": "من الأطعمة الغنية بالبروتين اللحوم والأسماك والبيض والحليب ومشتقاته.",
+    "ما هي أضرار التدخين على الصحة؟": "تشمل أضرار التدخين ارتفاع خطر الإصابة بأمراض القلب والسرطان وأمراض التنفس.",
+    "كيف يمكن تقوية جهاز المناعة؟": "يمكن تقوية جهاز المناعة باتباع نمط حياة صحي، وتناول الغذاء المتوازن، وممارسة الرياضة بانتظام.",
+    "ما هي أفضل طرق التخلص من الإجهاد؟": "من أفضل طرق التخلص من الإجهاد التمارين الرياضية، والتأمل، والاسترخاء، والنوم الجيد.",
+
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Chat Bot'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.close),
+          ),
+        ],
+      ),
+      body: Stack(
+        children: [
+          Lottie.asset(
+            'assets/Animations/bg.json',
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          ListView.builder(
+            itemCount: faq.length,
+            itemBuilder: (context, index) {
+              final question = faq.keys.elementAt(index);
+              final answer = faq.values.elementAt(index);
+              return Card(
+                elevation: 3,
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: ListTile(
+                  title: Text(
+                    question,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(
+                            question,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          content: Text(answer),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
