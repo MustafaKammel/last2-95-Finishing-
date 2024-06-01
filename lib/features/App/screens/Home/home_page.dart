@@ -212,7 +212,6 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     "ما هي أضرار التدخين على الصحة؟": "تشمل أضرار التدخين ارتفاع خطر الإصابة بأمراض القلب والسرطان وأمراض التنفس.",
     "كيف يمكن تقوية جهاز المناعة؟": "يمكن تقوية جهاز المناعة باتباع نمط حياة صحي، وتناول الغذاء المتوازن، وممارسة الرياضة بانتظام.",
     "ما هي أفضل طرق التخلص من الإجهاد؟": "من أفضل طرق التخلص من الإجهاد التمارين الرياضية، والتأمل، والاسترخاء، والنوم الجيد.",
-
   };
 
   @override
@@ -245,7 +244,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               return Card(
                 elevation: 3,
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ListTile(
+                child: ExpansionTile(
                   title: Text(
                     question,
                     style: TextStyle(
@@ -253,49 +252,34 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                       fontSize: 16,
                     ),
                   ),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(
-                            question,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          content: Text(answer),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Close'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(answer),
+                    ),
+                  ],
                 ),
               );
             },
           ),
-          Positioned(
-            bottom: 20,
-            right: 20,
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => RockPaperScissorsGame()),
-                );
-              },
-              child: Icon(Icons.gamepad),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 20,
+          //   right: 20,
+          //   child: FloatingActionButton(
+          //     onPressed: () {
+          //       Navigator.of(context).push(
+          //         MaterialPageRoute(builder: (context) => RockPaperScissorsGame()),
+          //       );
+          //     },
+          //     child: Icon(Icons.gamepad),
+          //   ),
+          // ),
         ],
       ),
     );
   }
 }
+
 
 class RockPaperScissorsGame extends StatefulWidget {
   @override
