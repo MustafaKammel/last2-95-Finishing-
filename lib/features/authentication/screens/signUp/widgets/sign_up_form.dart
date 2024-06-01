@@ -157,7 +157,9 @@ class _SignUpFormState extends State<SignUpForm> {
             child: Column(
               children: [
                 TextFormField(
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  // keyboardType: TextInputType.text,
                   controller: controller.aboutController,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Iconsax.info_circle),
@@ -409,7 +411,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 },
                 child: Text(
                   " Log in",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: 15,color: Colors.blue),
                 ),
               )
             ],

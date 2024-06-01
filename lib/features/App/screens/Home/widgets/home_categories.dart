@@ -30,7 +30,7 @@ class HomeCategories extends StatelessWidget {
     "Neurology", //علم الأعصاب
     "Orthopedic", //تقويم العظام
     "Nephrology", //أمراض الكلى
-    "Otolaryngology", //طب الأنف والأذن والحنجرة
+    "Otolaryngolgy", //طب الأنف والأذن والحنجرة
     "All Specialties", //كل التخصصات
   ];
 
