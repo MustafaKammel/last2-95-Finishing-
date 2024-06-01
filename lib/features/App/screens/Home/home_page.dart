@@ -219,7 +219,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat Bot'),
+        title: Text('Q&A'),
         actions: [
           IconButton(
             onPressed: () {
