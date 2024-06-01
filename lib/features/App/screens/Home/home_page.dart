@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
@@ -192,7 +194,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-
 class ChatBotScreen extends StatefulWidget {
   @override
   State<ChatBotScreen> createState() => _ChatBotScreenState();
@@ -277,6 +278,84 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                 ),
               );
             },
+          ),
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => RockPaperScissorsGame()),
+                );
+              },
+              child: Icon(Icons.gamepad),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class RockPaperScissorsGame extends StatefulWidget {
+  @override
+  _RockPaperScissorsGameState createState() => _RockPaperScissorsGameState();
+}
+
+class _RockPaperScissorsGameState extends State<RockPaperScissorsGame> {
+  var _result = '';
+
+  void _play(String userChoice) {
+    final random = Random().nextInt(3); // 0, 1, or 2
+    final computerChoice = ['rock', 'paper', 'scissors'][random];
+
+    if (userChoice == computerChoice) {
+      setState(() {
+        _result = 'It\'s a draw!';
+      });
+    } else if ((userChoice == 'rock' && computerChoice == 'scissors') ||
+        (userChoice == 'paper' && computerChoice == 'rock') ||
+        (userChoice == 'scissors' && computerChoice == 'paper')) {
+      setState(() {
+        _result = 'You win!';
+      });
+    } else {
+      setState(() {
+        _result = 'You lose!';
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Rock Paper Scissors'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '$_result',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () => _play('rock'),
+                child: Text('Rock'),
+              ),
+              ElevatedButton(
+                onPressed: () => _play('paper'),
+                child: Text('Paper'),
+              ),
+              ElevatedButton(
+                onPressed: () => _play('scissors'),
+                child: Text('Scissors'),
+              ),
+            ],
           ),
         ],
       ),
